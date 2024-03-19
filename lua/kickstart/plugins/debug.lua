@@ -43,6 +43,7 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
       },
+      handlers = {},
     }
 
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -81,10 +82,14 @@ return {
     vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+    -- dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
     -- Install golang specific config
-    require('dap-go').setup()
+    local dapgo = require('dap-go')
+    dapgo.setup()
+
+
+    vim.keymap.set('n', '<leader>td', dapgo.debug_test, { desc = 'Debug: Run [t]est with [d]ebug.' })
   end,
 }
